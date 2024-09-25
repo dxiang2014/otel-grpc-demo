@@ -42,6 +42,7 @@ $ make run
 cd ./services && docker compose up -d
 [+] Running 1/0
  ✔ Container otel-collector  Running                                                                                                                                            0.0s 
+
 RUST_LOG=info cargo run
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.06s
      Running `target/debug/otel-grpc-demo`
@@ -58,6 +59,7 @@ RUST_LOG=info cargo run
 2024-09-25T07:09:54.889813Z  INFO otel_grpc_demo: Logging metrics
 2024-09-25T07:09:55.891576Z  INFO otel_grpc_demo: Shutting down
 2024-09-25T07:09:55.891603Z  INFO otel_grpc_demo::otel::metrics: MetricStore shutting down
+
 curl http://localhost:8889/metrics
 # HELP port_rx_bytes_total 
 # TYPE port_rx_bytes_total counter
