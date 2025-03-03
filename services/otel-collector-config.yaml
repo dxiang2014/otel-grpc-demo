@@ -2,15 +2,16 @@ receivers:
   otlp:
     protocols:
       grpc:
-        endpoint: 0.0.0.0:4317
+        endpoint: "0.0.0.0:4317"  # Ensure OTel listens on this port
+      http:
+        endpoint: "0.0.0.0:4318"  # (Optional) HTTP OTLP
 
 exporters:
-  prometheus:
-    endpoint: "0.0.0.0:8889"
-    const_labels:
-      "os_name": "demo-os"
-      "os_type": "demo-os"
-      "os_version": "202411.0"
+  influxdb:
+    endpoint: "http://influxdb:8086"  # Use the InfluxDB container name on the same Docker network
+    org: "pncm"
+    bucket: "bucket1"
+    token: "9I3G2EyKnW4bEHwkV3Y7-dfubQD2VnXQ5x6PGMG47lQQsIAw8R0zf85-p15DOy1m-ZAIwOnODn3iwOeGuLcHqQ=="
 
   debug:
     verbosity: detailed
@@ -18,9 +19,19 @@ exporters:
 processors:
   batch:
 
+extensions:
+  health_check:
+    endpoint: ":13133"
+  pprof:
+    endpoint: ":1777"
+  zpages:
+    endpoint: ":55679"
+
 service:
+  extensions: [health_check, pprof, zpages]
+
   pipelines:
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug, prometheus]
+      exporters: [debug,influxdb]
