@@ -2,22 +2,23 @@ receivers:
   otlp:
     protocols:
       grpc:
-        endpoint: "0.0.0.0:4317"  # Ensure OTel listens on this port
+        endpoint: "0.0.0.0:4317"
       http:
-        endpoint: "0.0.0.0:4318"  # (Optional) HTTP OTLP
+        endpoint: "0.0.0.0:4318"  # Removed debug: true
 
 exporters:
   influxdb:
-    endpoint: "http://influxdb:8086"  # Use the InfluxDB container name on the same Docker network
+    endpoint: "http://influxdb:8086"
     org: "pncm"
     bucket: "bucket1"
     token: "9I3G2EyKnW4bEHwkV3Y7-dfubQD2VnXQ5x6PGMG47lQQsIAw8R0zf85-p15DOy1m-ZAIwOnODn3iwOeGuLcHqQ=="
-
   debug:
     verbosity: detailed
 
 processors:
   batch:
+    timeout: 1s
+    send_batch_size: 10
 
 extensions:
   health_check:
@@ -28,10 +29,20 @@ extensions:
     endpoint: ":55679"
 
 service:
+  telemetry:
+    logs:
+      level: "debug"
   extensions: [health_check, pprof, zpages]
-
   pipelines:
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug,influxdb]
+      exporters: [debug, influxdb]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [influxdb, debug]
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug, influxdb]
