@@ -1,0 +1,228 @@
+[
+    {
+        "Id": "b3bbc09aaa3adaa797dfbe380bf8dd46753ff58a09e5b95c92f91d75e8a996f8",
+        "Created": "2025-03-01T02:28:29.839598142Z",
+        "Path": "/usr/local/bin/influxdb-docker-entrypoint.sh",
+        "Args": [
+            "influxd"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 46914,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2025-03-01T02:28:30.12581171Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:a62c74c4ea47593b6de67854dbd99c46547cb9d437bfcafb8513521adf826802",
+        "ResolvConfPath": "/var/lib/docker/containers/b3bbc09aaa3adaa797dfbe380bf8dd46753ff58a09e5b95c92f91d75e8a996f8/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/b3bbc09aaa3adaa797dfbe380bf8dd46753ff58a09e5b95c92f91d75e8a996f8/hostname",
+        "HostsPath": "/var/lib/docker/containers/b3bbc09aaa3adaa797dfbe380bf8dd46753ff58a09e5b95c92f91d75e8a996f8/hosts",
+        "LogPath": "/var/lib/docker/containers/b3bbc09aaa3adaa797dfbe380bf8dd46753ff58a09e5b95c92f91d75e8a996f8/b3bbc09aaa3adaa797dfbe380bf8dd46753ff58a09e5b95c92f91d75e8a996f8-json.log",
+        "Name": "/vigorous_bassi",
+        "RestartCount": 0,
+        "Driver": "overlayfs",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "host",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                60,
+                236
+            ],
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "host",
+            "Dns": [],
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": false,
+            "PidsLimit": null,
+            "Ulimits": [],
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/asound",
+                "/proc/acpi",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/sys/firmware",
+                "/sys/devices/virtual/powercap"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": null,
+            "Name": "overlayfs"
+        },
+        "Mounts": [
+            {
+                "Type": "volume",
+                "Name": "eec8a3a8e6f0b2a07a7c54b00e6cc7643ec807ce8f6d7a7d9abac411c31bde03",
+                "Source": "/var/lib/docker/volumes/eec8a3a8e6f0b2a07a7c54b00e6cc7643ec807ce8f6d7a7d9abac411c31bde03/_data",
+                "Destination": "/etc/influxdb",
+                "Driver": "local",
+                "Mode": "",
+                "RW": true,
+                "Propagation": ""
+            },
+            {
+                "Type": "volume",
+                "Name": "f70afc8f3ba6af88672f1e917afa2b29a23940cee9309ce32ff8d309fa4edb54",
+                "Source": "/var/lib/docker/volumes/f70afc8f3ba6af88672f1e917afa2b29a23940cee9309ce32ff8d309fa4edb54/_data",
+                "Destination": "/var/lib/influxdb",
+                "Driver": "local",
+                "Mode": "",
+                "RW": true,
+                "Propagation": ""
+            }
+        ],
+        "Config": {
+            "Hostname": "docker-desktop",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "ExposedPorts": {
+                "8086/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "INFLUX_CONFIGS_PATH=/etc/influxdb/influx-configs",
+                "INFLUXD_INIT_PORT=9999",
+                "INFLUXD_INIT_PING_ATTEMPTS=600",
+                "DOCKER_INFLUXDB_INIT_CLI_CONFIG_NAME=default"
+            ],
+            "Cmd": [
+                "influxd"
+            ],
+            "Image": "a62c74c4ea47",
+            "Volumes": {
+                "/etc/influxdb": {},
+                "/var/lib/influxdb": {}
+            },
+            "WorkingDir": "/",
+            "Entrypoint": [
+                "/usr/local/bin/influxdb-docker-entrypoint.sh"
+            ],
+            "OnBuild": null,
+            "Labels": {
+                "desktop.docker.io/wsl-distro": "Debian"
+            }
+        },
+        "NetworkSettings": {
+            "Bridge": "",
+            "SandboxID": "ad3376be4a22294addcfd3e38f15db905d99da7c77336bdd0973de1fb8522056",
+            "SandboxKey": "/var/run/docker/netns/default",
+            "Ports": {},
+            "HairpinMode": false,
+            "LinkLocalIPv6Address": "",
+            "LinkLocalIPv6PrefixLen": 0,
+            "SecondaryIPAddresses": null,
+            "SecondaryIPv6Addresses": null,
+            "EndpointID": "",
+            "Gateway": "",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "IPAddress": "",
+            "IPPrefixLen": 0,
+            "IPv6Gateway": "",
+            "MacAddress": "",
+            "Networks": {
+                "host": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "MacAddress": "",
+                    "DriverOpts": null,
+                    "NetworkID": "cec31c43637d47df1755dab6e32ce4171fc06a853e977a9650e20a356e1cc71b",
+                    "EndpointID": "333d75e3d37a4372f243c6c6d16d963f17522c9c3370f26860e6e610e1d94a0b",
+                    "Gateway": "",
+                    "IPAddress": "",
+                    "IPPrefixLen": 0,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": null
+                }
+            }
+        }
+    }
+]

@@ -1,0 +1,28 @@
+ docker run --network host a62c74c4ea47
+Command "print-config" is deprecated, use the influx-cli command server-config to display the configuration values from the running server
+Command "print-config" is deprecated, use the influx-cli command server-config to display the configuration values from the running server
+Command "print-config" is deprecated, use the influx-cli command server-config to display the configuration values from the running server
+2025-03-01T02:15:44.748718109Z  info    creating folders with the right permissions     {"system": "docker"}
+2025-03-01T02:15:44.767688997Z  warn    boltdb not found at configured path, but DOCKER_INFLUXDB_INIT_MODE not specified, skipping setup wrapper      {"system": "docker", "bolt_path": ""}
+Command "print-config" is deprecated, use the influx-cli command server-config to display the configuration values from the running server
+Command "print-config" is deprecated, use the influx-cli command server-config to display the configuration values from the running server
+Command "print-config" is deprecated, use the influx-cli command server-config to display the configuration values from the running server
+ info    creating folders with the right permissions     {"system": "docker"}
+ warn    cannot create folders as non-root       {"system": "docker"}
+ warn    boltdb not found at configured path, but DOCKER_INFLUXDB_INIT_MODE not specified, skipping setup wrapper      {"system": "docker", "bolt_path": ""}
+lvl=info msg="Welcome to InfluxDB" log_id=0u~sUIpW000 version=2.7.3 commit=none build_date=2025-03-01T02:15:44Z log_level=info
+lvl=info msg="Resources opened" log_id=0u~sUIpW000 service=bolt path=/var/lib/influxdb/.influxdbv2/influxd.bolt
+lvl=info msg="Resources opened" log_id=0u~sUIpW000 service=sqlite path=/var/lib/influxdb/.influxdbv2/influxd.sqlite
+lvl=info msg="Bringing up metadata migrations" log_id=0u~sUIpW000 service="KV migrations" migration_count=20
+lvl=info msg="Bringing up metadata migrations" log_id=0u~sUIpW000 service="SQL migrations" migration_count=8
+lvl=info msg="Using data dir" log_id=0u~sUIpW000 service=storage-engine service=store path=/var/lib/influxdb/.influxdbv2/engine/data
+lvl=info msg="Compaction settings" log_id=0u~sUIpW000 service=storage-engine service=store max_concurrent_compactions=10 throughput_bytes_per_second=50331648 throughput_bytes_per_second_burst=50331648
+lvl=info msg="Open store (start)" log_id=0u~sUIpW000 service=storage-engine service=store op_name=tsdb_open op_event=start
+lvl=info msg="Open store (end)" log_id=0u~sUIpW000 service=storage-engine service=store op_name=tsdb_open op_event=end op_elapsed=0.066ms
+lvl=info msg="Starting retention policy enforcement service" log_id=0u~sUIpW000 service=retention check_interval=30m
+lvl=info msg="Starting precreation service" log_id=0u~sUIpW000 service=shard-precreation check_interval=10m advance_period=30m
+lvl=info msg="Starting query controller" log_id=0u~sUIpW000 service=storage-reads concurrency_quota=8 initial_memory_bytes_quota_per_query=67108863 memory_bytes_quota_per_query=67108863 max_memory_bytes=536870912 queue_size=128
+lvl=info msg="Configuring InfluxQL statement executor (zeros indicate unlimited)." log_id=0u~sUIpW000 max_select_point=0 max_select_series=0 max_select_buckets=0
+lvl=info msg=Starting log_id=0u~sUIpW000 service=telemetry interval=8h
+lvl=info msg=Listening log_id=0u~sUIpW000 service=tcp-listener transport=http addr=:8086 port=8086
+

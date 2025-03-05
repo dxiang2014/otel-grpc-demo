@@ -1,0 +1,31 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: "0.0.0.0:4317"  # Ensure OTel listens on this port
+      http:
+        endpoint: "0.0.0.0:4318"  # (Optional) HTTP OTLP
+
+exporters:
+  influxdb:
+    endpoint: "http://172.17.0.2:8086"  # Ensure correct InfluxDB port
+    org: "pncm"
+    bucket: "bucket1"
+    token: "bdHbhV7Tm2smplKzdqHmFEzb8iUUBx4NPR1Dy0s7sU_3eMC0uIeUpJfc8Z5SLxzhbVYrjQGOmBzVKVfhw8aHtw=="
+
+extensions:
+  health_check:
+    endpoint: ":13133"
+  pprof:
+    endpoint: ":1777"
+  zpages:
+    endpoint: ":55679"
+  reflection: {}  # Add this section to enable gRPC reflection
+
+service:
+  extensions: [health_check, pprof, zpages, reflection]  # Add reflection extension to the service
+
+  pipelines:
+    metrics:
+      receivers: [otlp]
+      exporters: [influxdb]
