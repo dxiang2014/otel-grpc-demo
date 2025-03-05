@@ -1,0 +1,29 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: "0.0.0.0:4317"
+      http:
+        endpoint: "0.0.0.0:4318"
+exporters:
+  influxdb:
+    endpoint: "http://influxdb:8086"
+    org: "pncm"
+    bucket: "bucket1"
+    token: "9I3G2EyKnW4bEHwkV3Y7-dfubQD2VnXQ5x6PGMG47lQQsIAw8R0zf85-p15DOy1m-ZAIwOnODn3iwOeGuLcHqQ=="
+  debug:
+    verbosity: detailed
+processors:
+  batch:
+    timeout: 1s
+    send_batch_size: 10
+service:
+  pipelines:
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug, influxdb]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [influxdb, debug]

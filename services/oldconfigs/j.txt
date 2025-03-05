@@ -4,14 +4,14 @@ receivers:
       grpc:
         endpoint: "0.0.0.0:4317"
       http:
-        endpoint: "0.0.0.0:4318"  # Removed debug: true
+        endpoint: "0.0.0.0:4318"
 
 exporters:
   influxdb:
     endpoint: "http://influxdb:8086"
     org: "pncm"
     bucket: "bucket1"
-    token: "m5VR3uzCMWQEfgS6Q6qEFwGm5wAKaAXNoNy4JSJ5NgRq4Dn8rhTnnKe_sd7d7IReXmZZPPG5ibff9aFWG7f05Q=="
+    token: "9I3G2EyKnW4bEHwkV3Y7-dfubQD2VnXQ5x6PGMG47lQQsIAw8R0zf85-p15DOy1m-ZAIwOnODn3iwOeGuLcHqQ=="
   debug:
     verbosity: detailed
 
@@ -31,18 +31,18 @@ extensions:
 service:
   telemetry:
     logs:
-      level: "debug"
+      level: "debug"  # Enable debug logging
   extensions: [health_check, pprof, zpages]
   pipelines:
-    metrics:
+    metrics:  # For metrics data
       receivers: [otlp]
       processors: [batch]
       exporters: [debug, influxdb]
-    logs:
+    logs:  # For logs data (optional, remove if not needed)
       receivers: [otlp]
       processors: [batch]
       exporters: [influxdb, debug]
-    traces:
+    traces:  # Add this
       receivers: [otlp]
       processors: [batch]
       exporters: [debug, influxdb]

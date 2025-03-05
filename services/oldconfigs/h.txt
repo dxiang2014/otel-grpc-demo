@@ -1,0 +1,18 @@
+service:
+  telemetry:
+    logs:
+      level: "debug"
+  extensions: [health_check, pprof, zpages]
+  pipelines:
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug, influxdb]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [influxdb, debug]
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug, influxdb]
