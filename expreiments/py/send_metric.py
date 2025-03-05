@@ -1,48 +1,74 @@
 import logging
 import time
-from google.protobuf.json_format import MessageToJson
-from opentelemetry import metrics
-from opentelemetry.sdk.metrics import MeterProvider
-from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader
-from opentelemetry.exporter.otlp.proto.http.metric_exporter import OTLPMetricExporter
-from opentelemetry.sdk.resources import SERVICE_NAME, Resource
-from opentelemetry.proto.metrics.v1.metrics_pb2 import MetricsData  # Import protobuf type
+from datetime import datetime
+import requests
+from opentelemetry.proto.resource.v1.resource_pb2 import Resource
+from opentelemetry.proto.common.v1.common_pb2 import KeyValue, AnyValue, InstrumentationScope
+from opentelemetry.proto.metrics.v1.metrics_pb2 import (
+    ResourceMetrics,
+    ScopeMetrics,
+    Metric,
+    Gauge as OtelGauge,
+    NumberDataPoint,
+    MetricsData,
+)
 
-# Configure logging
 logging.basicConfig(level=logging.DEBUG)
 
-# Custom metric exporter with logging
-class LoggingOTLPMetricExporter(OTLPMetricExporter):
-    def export(self, metrics_data, **kwargs):
-        if isinstance(metrics_data, MetricsData):  # Ensure it's a protobuf message
-            serialized_data = MessageToJson(metrics_data)  # Convert to JSON
-            logging.debug(f"Exporting metrics: {serialized_data}")
-        else:
-            logging.debug("Received non-protobuf metrics data")
-            logging.debug(f"Raw metrics data type: {type(metrics_data)}")
+# List of custom timestamps (2025-03-01 to 2025-03-06 12:00:00 UTC)
+timestamps = [
+    int(datetime(2025, 2, 7, 12, 0, 0).timestamp() * 1_000_000_000),
+    int(datetime(2025, 2, 8, 12, 0, 0).timestamp() * 1_000_000_000),
+    int(datetime(2025, 2, 9, 12, 0, 0).timestamp() * 1_000_000_000),
+    int(datetime(2025, 2, 10, 12, 0, 0).timestamp() * 1_000_000_000),
+    int(datetime(2025, 2, 11, 12, 0, 0).timestamp() * 1_000_000_000),
+    int(datetime(2025, 2, 12, 12, 0, 0).timestamp() * 1_000_000_000),
+]
 
-            try:
-                # OpenTelemetry does not directly provide a .to_protobuf() method
-                # Instead, we rely on OpenTelemetry's exporter behavior
-                serialized_data = str(metrics_data)  # Fallback: Convert to string representation
-                logging.debug(f"Exporting metrics: {serialized_data}")
-            except Exception as e:
-                logging.error(f"Failed to serialize metrics data: {e}")
+for custom_timestamp_ns in timestamps:
+    # Create OTLP metric
+    data_point = NumberDataPoint()
+    data_point.as_int = 12
+    data_point.time_unix_nano = custom_timestamp_ns
+    data_point.ClearField("start_time_unix_nano")  # Explicitly clear
 
-        
-        return super().export(metrics_data, **kwargs)
+    metric = Metric(
+        name="test_metric",
+        description="A test metric",
+        unit="1",
+        gauge=OtelGauge(data_points=[data_point])
+    )
 
-# Setup OpenTelemetry metric provider
-resource = Resource(attributes={SERVICE_NAME: "test-service"})
-exporter = LoggingOTLPMetricExporter(endpoint="http://otel-collector:4318/v1/metrics")
-reader = PeriodicExportingMetricReader(exporter)
-provider = MeterProvider(resource=resource, metric_readers=[reader])
-metrics.set_meter_provider(provider)
+    scope_metrics = ScopeMetrics(
+        scope=InstrumentationScope(name="test-meter"),
+        metrics=[metric]
+    )
 
-# Create and set gauge metric
-meter = metrics.get_meter("test-meter")
-gauge = meter.create_gauge("test_metric", description="A test metric", unit="1")
-gauge.set(42)
+    resource_metrics = ResourceMetrics(
+        resource=Resource(
+            attributes=[
+                KeyValue(key="service.name", value=AnyValue(string_value="test-service"))
+            ]
+        ),
+        scope_metrics=[scope_metrics]
+    )
 
-# Allow time for metric export
-time.sleep(5)
+    # Wrap in MetricsData
+    metrics_data = MetricsData(resource_metrics=[resource_metrics])
+
+    # Serialize to protobuf
+    payload = metrics_data.SerializeToString()
+
+    # Log the payload for debugging
+    logging.debug(f"Payload (hex): {payload.hex()}")
+
+    # Send to otel-collector
+    headers = {"Content-Type": "application/x-protobuf"}
+    response = requests.post("http://otel-collector:4318/v1/metrics", data=payload, headers=headers)
+
+    logging.debug(f"Sent metric with timestamp: {custom_timestamp_ns} ({datetime.fromtimestamp(custom_timestamp_ns / 1_000_000_000)} UTC)")
+    logging.debug(f"Response: {response.status_code} {response.text}")
+
+    time.sleep(2)  # Allow processing between sends
+
+time.sleep(5)  # Final wait
