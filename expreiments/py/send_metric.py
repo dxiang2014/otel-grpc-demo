@@ -17,18 +17,18 @@ logging.basicConfig(level=logging.DEBUG)
 
 # List of custom timestamps (2025-03-01 to 2025-03-06 12:00:00 UTC)
 timestamps = [
-    int(datetime(2025, 2, 7, 12, 0, 0).timestamp() * 1_000_000_000),
-    int(datetime(2025, 2, 8, 12, 0, 0).timestamp() * 1_000_000_000),
-    int(datetime(2025, 2, 9, 12, 0, 0).timestamp() * 1_000_000_000),
-    int(datetime(2025, 2, 10, 12, 0, 0).timestamp() * 1_000_000_000),
-    int(datetime(2025, 2, 11, 12, 0, 0).timestamp() * 1_000_000_000),
-    int(datetime(2025, 2, 12, 12, 0, 0).timestamp() * 1_000_000_000),
+    int(datetime(2025, 3, 1, 12, 0, 0).timestamp() * 1_000_000_000),
+    int(datetime(2025, 3, 2, 12, 0, 0).timestamp() * 1_000_000_000),
+    int(datetime(2025, 3, 3, 12, 0, 0).timestamp() * 1_000_000_000),
+    int(datetime(2025, 3, 4, 12, 0, 0).timestamp() * 1_000_000_000),
+    int(datetime(2025, 3, 13, 12, 0, 0).timestamp() * 1_000_000_000),
+    int(datetime(2025, 3, 14, 12, 0, 0).timestamp() * 1_000_000_000),
 ]
 
 for custom_timestamp_ns in timestamps:
     # Create OTLP metric
     data_point = NumberDataPoint()
-    data_point.as_int = 12
+    data_point.as_int = 52
     data_point.time_unix_nano = custom_timestamp_ns
     data_point.ClearField("start_time_unix_nano")  # Explicitly clear
 

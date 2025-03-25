@@ -11,7 +11,7 @@ exporters:
     endpoint: "http://influxdb:8086"
     org: "pncm"
     bucket: "bucket1"
-    token: "S0NejBoaqjTEoPEYrABADGbURY7hT8gkayIKbAnJZsdMqGL7LQyPnaFMJdFlXoMDuNJsXaaSpl02Av1IYaWKDw=="
+    token: "H4A9MRlqK8DEqpd6lgRG_YvJmNvuclM6MCTYWFNskIAUth3gfvf1aLnF7xtgKBrvlPI593HGFdwxhkrxI1X54w=="
   debug:
     verbosity: detailed
 
