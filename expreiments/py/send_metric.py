@@ -1,5 +1,6 @@
 import logging
 import time
+import math
 import requests
 from opentelemetry.proto.resource.v1.resource_pb2 import Resource
 from opentelemetry.proto.common.v1.common_pb2 import KeyValue, AnyValue, InstrumentationScope
@@ -18,16 +19,23 @@ logging.basicConfig(level=logging.DEBUG)
 while True:
     # Use current timestamp in nanoseconds
     current_timestamp_ns = int(time.time() * 1_000_000_000)
+    current_time_sec = time.time()  # Current time in seconds for sine calculation
+
+    # Create a sine wave value based on current time
+    # Use a period of 60 seconds for one full cycle (adjust as needed)
+    sine_value = math.sin(2 * math.pi * current_time_sec / 60.0)
+    # Scale the sine value to a reasonable range (e.g., 0 to 100) and convert to int
+    scaled_value = int((sine_value + 1) * 50)  # Maps -1..1 to 0..100
 
     # Create OTLP metric
     data_point = NumberDataPoint()
-    data_point.as_int = 12  # Sample value
+    data_point.as_int = scaled_value  # Use sine-based value
     data_point.time_unix_nano = current_timestamp_ns
     data_point.ClearField("start_time_unix_nano")  # Explicitly clear
 
     metric = Metric(
         name="test_metric",
-        description="A test metric",
+        description="A test metric with sine wave pattern",
         unit="1",
         gauge=OtelGauge(data_points=[data_point])
     )
@@ -66,7 +74,8 @@ while True:
         )
         logging.debug(
             f"Sent metric with timestamp: {current_timestamp_ns} "
-            f"({time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(current_timestamp_ns / 1_000_000_000))} UTC)"
+            f"({time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(current_timestamp_ns / 1_000_000_000))} UTC) "
+            f"Value: {scaled_value}"
         )
         logging.debug(f"Response: {response.status_code} {response.text}")
     except requests.exceptions.RequestException as e:
