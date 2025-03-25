@@ -22,9 +22,9 @@ while True:
     current_time_sec = time.time()  # Current time in seconds for sine calculation
 
     # Create a sine wave value based on current time
-    # Use a period of 60 seconds for one full cycle (adjust as needed)
-    sine_value = math.sin(2 * math.pi * current_time_sec / 60.0)
-    # Scale the sine value to a reasonable range (e.g., 0 to 100) and convert to int
+    # Use a period of 300 seconds (5 minutes) for a smoother cycle
+    sine_value = math.sin(2 * math.pi * current_time_sec / 300.0)
+    # Scale the sine value to a range of 0 to 100 and convert to int
     scaled_value = int((sine_value + 1) * 50)  # Maps -1..1 to 0..100
 
     # Create OTLP metric
