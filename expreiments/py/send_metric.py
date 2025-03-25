@@ -1,6 +1,5 @@
 import logging
 import time
-from datetime import datetime
 import requests
 from opentelemetry.proto.resource.v1.resource_pb2 import Resource
 from opentelemetry.proto.common.v1.common_pb2 import KeyValue, AnyValue, InstrumentationScope
@@ -15,21 +14,15 @@ from opentelemetry.proto.metrics.v1.metrics_pb2 import (
 
 logging.basicConfig(level=logging.DEBUG)
 
-# List of custom timestamps (2025-03-01 to 2025-03-06 12:00:00 UTC)
-timestamps = [
-    int(datetime(2025, 3, 1, 12, 0, 0).timestamp() * 1_000_000_000),
-    int(datetime(2025, 3, 2, 12, 0, 0).timestamp() * 1_000_000_000),
-    int(datetime(2025, 3, 3, 12, 0, 0).timestamp() * 1_000_000_000),
-    int(datetime(2025, 3, 4, 12, 0, 0).timestamp() * 1_000_000_000),
-    int(datetime(2025, 3, 13, 12, 0, 0).timestamp() * 1_000_000_000),
-    int(datetime(2025, 3, 14, 12, 0, 0).timestamp() * 1_000_000_000),
-]
+# Run indefinitely, sending a sample every second
+while True:
+    # Use current timestamp in nanoseconds
+    current_timestamp_ns = int(time.time() * 1_000_000_000)
 
-for custom_timestamp_ns in timestamps:
     # Create OTLP metric
     data_point = NumberDataPoint()
-    data_point.as_int = 52
-    data_point.time_unix_nano = custom_timestamp_ns
+    data_point.as_int = 12  # Sample value
+    data_point.time_unix_nano = current_timestamp_ns
     data_point.ClearField("start_time_unix_nano")  # Explicitly clear
 
     metric = Metric(
@@ -64,11 +57,19 @@ for custom_timestamp_ns in timestamps:
 
     # Send to otel-collector
     headers = {"Content-Type": "application/x-protobuf"}
-    response = requests.post("http://otel-collector:4318/v1/metrics", data=payload, headers=headers)
+    try:
+        response = requests.post(
+            "http://otel-collector:4318/v1/metrics",
+            data=payload,
+            headers=headers,
+            timeout=5  # Add timeout to avoid hanging
+        )
+        logging.debug(
+            f"Sent metric with timestamp: {current_timestamp_ns} "
+            f"({time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(current_timestamp_ns / 1_000_000_000))} UTC)"
+        )
+        logging.debug(f"Response: {response.status_code} {response.text}")
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Failed to send metric: {e}")
 
-    logging.debug(f"Sent metric with timestamp: {custom_timestamp_ns} ({datetime.fromtimestamp(custom_timestamp_ns / 1_000_000_000)} UTC)")
-    logging.debug(f"Response: {response.status_code} {response.text}")
-
-    time.sleep(2)  # Allow processing between sends
-
-time.sleep(5)  # Final wait
+    time.sleep(1)  # Send every second
